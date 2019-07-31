@@ -4,38 +4,38 @@ from sklearn.externals import joblib
 from threading import *
 import time
 
+#Reading Refernece Image for BackGround Subtraction#
 refIm = cv2.imread('refFrame.jpg')
 refIm2 = cv2.cvtColor(refIm, cv2.COLOR_BGR2GRAY)
+
+# setting roi#
 roi = np.ones(refIm2.shape, "uint8")
-# setting roi
 cv2.rectangle(roi, (62, 60), (242, 180), 255, -1)
 
 bg = refIm2.copy()
 bg = cv2.bitwise_and(bg, roi)
 
+#importing linearRegression#
 model = joblib.load("model.cpickle")
 TIME = 0
 
-
+#timer Logic#
 class SetTimer(Thread):
     def run(self):
         canvas = np.zeros((232, 302), "uint8")
         final_time=TIME
         print("predicted time is ",final_time)
         for i in range(final_time):
-            #cv2.putText(canvas, str(final_time - i), (int(canvas.shape[0] / 2), int(canvas.shape[1] / 2)),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255))
+            #delay of one second#
             time.sleep(0.2)
-            #canvas = np.zeros((232, 302), "uint8")
-            #cv2.imshow("canvas",canvas)
-            #cv2.waitKey(1)
             print(final_time-i)
 
-
+#Calculating frame number from given time#
 def calcFrame(x, y):
     frame_time = int((x * 60 + y) * 35)
     return frame_time
 
-
+#Finding Contour and Predicting Time#
 def process(frame):
     vidClone = frame.copy()
     global roi
@@ -49,7 +49,6 @@ def process(frame):
     k = 3
     kernel = np.ones((k, k), "uint8")
     opening = cv2.morphologyEx(thresholded, cv2.MORPH_OPEN, kernel)
-    # cv2.imshow('opening', opening)
     # dilation logic#
     dilate = 15
     dilated = cv2.dilate(opening, None, iterations=dilate)
@@ -64,11 +63,9 @@ def process(frame):
         area = cv2.contourArea(contour[i])
         if area >= 3700:
             cv2.drawContours(vidClone, contour, i, (0, 255, 0), 3)
-            # cv2.putText(vidClone, str(area), (cx - 10, cy - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 3)
             arr=np.array([area])
             arr=np.reshape(arr,(-1,1))
             time = model.predict(arr)
-            #print(time)
             global TIME
             TIME = int(time)
     #cv2.imshow("vidClone", vidClone)
@@ -80,25 +77,26 @@ def process(frame):
 
 
 if __name__ == "__main__":
+    #Capturing Four lanes#
     vid1 = cv2.VideoCapture('latestData.mp4')
     vid2 = cv2.VideoCapture('latestData.mp4')
     vid3 = cv2.VideoCapture('latestData.mp4')
     vid4 = cv2.VideoCapture('latestData.mp4')
-    # global refIm
     temp = refIm.copy()
-    temp1 = temp.copy()
+    
+    #temp is for the black window in Final Window#
     for i in range(232):
         for j in range(302):
             temp[i][j] = 0
-            temp1[i][j] = 255
     timer = temp.copy()
-    # setting the video frame#
+    
+    # setting the video frame for different lanes#
     lane1_start_time = calcFrame(1, 60)
     lane1_end_time = calcFrame(2, 26)
     vid1.set(1, lane1_start_time)
     _, frame1 = vid1.read()
     lane2_start_time = calcFrame(2, 52)
-    lane2_end_time = calcFrame(3, 22)
+    lane2_end_time = calcFrame(3, 25)
     vid2.set(1, lane2_start_time)
     _, frame2 = vid2.read()
     lane3_start_time = calcFrame(6, 56)
@@ -109,14 +107,15 @@ if __name__ == "__main__":
     lane4_end_time = calcFrame(12, 52)
     vid4.set(1, lane4_start_time)
     _, frame4 = vid4.read()
-    # display window
+    
+    # display window. fWin is the final Video#
     st0 = np.hstack((temp, frame1, temp))
     st1 = np.hstack((frame4, timer, frame2))
     st2 = np.hstack((temp, frame3, temp))
     fWin = np.vstack((st0, st1, st2))
-    # lane1
+    
+    # lane1#
     vid1.set(1, calcFrame(2, 15))
-    # reading the reference image#
     while vid1.get(1) <= (lane1_end_time):
 
         ret1, frame1 = vid1.read()
@@ -138,7 +137,7 @@ if __name__ == "__main__":
         if keypress == ord('q'):
             break
 
-    # lane2
+    # lane2#
 
     while vid2.get(1) <= (lane2_end_time):
 
@@ -161,7 +160,7 @@ if __name__ == "__main__":
         if keypress == ord('q'):
             break
 
-    # lane3
+    # lane3#
 
     while vid3.get(1) <= (lane3_end_time) and TIME:
 
@@ -186,7 +185,7 @@ if __name__ == "__main__":
         if keypress == ord('q'):
             break
 
-    # lane4
+    # lane4#
 
     while vid4.get(1) <= (lane4_end_time):
 
@@ -209,4 +208,5 @@ if __name__ == "__main__":
         if keypress == ord('q'):
             break
 
+#destroy all windows#
 cv2.destroyAllWindows()
