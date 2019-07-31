@@ -49,7 +49,7 @@ class SetTimer(Thread):
         print("predicted time is ", final_time)
         for i in range(final_time):
             # delay of one second#
-            time.sleep(1)
+            time.sleep(0.1)
             print(final_time - i)
 
 
@@ -163,12 +163,16 @@ if __name__ == "__main__":
         st2 = np.hstack((temp, frame3, temp))
         fWin = np.vstack((st0, st1, st2))
         if vid1.get(1) == calcFrame(2, 23):
+            x, y = int(fWin.shape[0] / 2) + 50, int(fWin.shape[1] / 2) - 80
+            cv2.putText(fWin, 'Green Window for Lane 1:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
+            cv2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 0, 255))
+            cv2.imshow("frame", fWin)
+            cv2.waitKey(100)
             _t = SetTimer()
             _t.start()
             _t.join(TIME - 6)
-        x, y = int(fWin.shape[0] / 2) + 50, int(fWin.shape[1] / 2) - 80
-        cv2.putText(fWin, 'Green Window for Lane 1:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
-        cv2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 0, 255))
+        #cv2.putText(fWin, 'Green Window for Lane 1:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
+        #v2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 0, 255))
         cv2.imshow("frame", fWin)
         keypress = cv2.waitKey(1) & 0xFF
         # if the user pressed "q", then stop looping
@@ -185,13 +189,15 @@ if __name__ == "__main__":
         st1 = np.hstack((frame4, timer, frame2))
         st2 = np.hstack((temp, frame3, temp))
         if vid2.get(1) == calcFrame(3, 21):
+            x, y = int(fWin.shape[0] / 2) + 50, int(fWin.shape[1] / 2) - 80
+            cv2.putText(fWin, 'Green Window for Lane 1:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
+            cv2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 0, 255))
+            cv2.imshow("frame", fWin)
+            cv2.waitKey(100)
             _t = SetTimer()
             _t.start()
             _t.join(TIME - 6)
         fWin = np.vstack((st0, st1, st2))
-        x, y = int(fWin.shape[0] / 2) + 50, int(fWin.shape[1] / 2) - 80
-        cv2.putText(fWin, 'Green Window for Lane 2:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
-        cv2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255))
         cv2.imshow("frame", fWin)
         keypress = cv2.waitKey(1) & 0xFF
         # if the user pressed "q", then stop looping
@@ -208,15 +214,15 @@ if __name__ == "__main__":
         st1 = np.hstack((frame4, timer, frame2))
         st2 = np.hstack((temp, frame3, temp))
         if vid3.get(1) == calcFrame(7, 22):
+            x, y = int(fWin.shape[0] / 2) + 50, int(fWin.shape[1] / 2) - 80
+            cv2.putText(fWin, 'Green Window for Lane 1:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
+            cv2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 0, 255))
+            cv2.imshow("frame", fWin)
+            cv2.waitKey(100)
             _t = SetTimer()
             _t.start()
             _t.join(TIME - 6)
         fWin = np.vstack((st0, st1, st2))
-        x, y = int(fWin.shape[0] / 2) + 50, int(fWin.shape[1] / 2) - 80
-        cv2.putText(fWin, 'Green Window for Lane 3:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
-        cv2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255))
-        # time.sleep(1)
-
         cv2.imshow("frame", fWin)
         keypress = cv2.waitKey(1) & 0xFF
         # if the user pressed "q", then stop looping
@@ -233,14 +239,15 @@ if __name__ == "__main__":
         st1 = np.hstack((frame4, timer, frame2))
         st2 = np.hstack((temp, frame3, temp))
         if vid4.get(1) == calcFrame(12, 35):
+            x, y = int(fWin.shape[0] / 2) + 50, int(fWin.shape[1] / 2) - 80
+            cv2.putText(fWin, 'Green Window for Lane 1:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
+            cv2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 0, 255))
+            cv2.imshow("frame", fWin)
+            cv2.waitKey(100)
             _t = SetTimer()
             _t.start()
             _t.join(TIME - 6)
         fWin = np.vstack((st0, st1, st2))
-        x, y = int(fWin.shape[0] / 2) + 50, int(fWin.shape[1] / 2) - 80
-        cv2.putText(fWin, 'Green Window for Lane 4:', (x - 50, y - 50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 0))
-        cv2.putText(fWin, str(TIME), (x + 10, y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255))
-        cv2.imshow("frame", fWin)
         keypress = cv2.waitKey(1) & 0xFF
         # if the user pressed "q", then stop looping
         if keypress == ord('q'):
