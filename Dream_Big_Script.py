@@ -27,7 +27,7 @@ class SetTimer(Thread):
         print("predicted time is ",final_time)
         for i in range(final_time):
             #delay of one second#
-            time.sleep(0.2)
+            time.sleep(1.0)
             print(final_time-i)
 
 #Calculating frame number from given time#
