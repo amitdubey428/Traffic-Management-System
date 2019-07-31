@@ -1,9 +1,12 @@
 """
 Description
-@file Dream_Big_Script.py
+@file dynamicTrafficManagement.py
 
 The dataset for this model is taken from the Universitetsboulevarden,
 Aalborg, Denmark
+
+This file calculate the density of the traffic and set the value of the timer
+for each four lane
 
 """
 
@@ -16,7 +19,7 @@ from sklearn.externals import joblib
 from threading import *
 import time
 
-# Reading Refernece Image for BackGround Subtraction#
+# Reading Reference Image for BackGround Subtraction#
 refIm = cv2.imread('refFrame.jpg')
 refIm2 = cv2.cvtColor(refIm, cv2.COLOR_BGR2GRAY)
 
@@ -159,7 +162,7 @@ if __name__ == "__main__":
         st1 = np.hstack((frame4, timer, frame2))
         st2 = np.hstack((temp, frame3, temp))
         fWin = np.vstack((st0, st1, st2))
-        if vid1.get(1) == calcFrame(2, 22):
+        if vid1.get(1) == calcFrame(2, 23):
             _t = SetTimer()
             _t.start()
             _t.join(TIME - 6)
