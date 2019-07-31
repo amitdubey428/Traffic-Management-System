@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jul 25 01:09:35 2019
+Description
+@file LinearRegression.py
+This file is used for training the model over the given values
+of the density v/s time. The prediction is done through the 
+Linear Regression technique
 
-@author: Arjun
 """
 import pandas as pd
 import matplotlib.pyplot as plt
 dataset=pd.read_csv('Linear.csv')
 X=dataset.iloc[:,:-1].values
 y=dataset.iloc[:,1].values
-#for splitting dataset into trining AND testing 
+ 
 from sklearn.cross_validation import train_test_split
 X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=1/3,random_state=0)
 
